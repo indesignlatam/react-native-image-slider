@@ -134,6 +134,8 @@ export default class ImageSlider extends Component {
         const width = this.state.width;
         const height = this.props.height || this.state.height;
         const position = this._getPosition();
+        const ImageComponent = this.props.imageComponent || Image;
+        
         return (<View>
             <ScrollView
                 ref={ref => this._onRef(ref)}
@@ -144,8 +146,9 @@ export default class ImageSlider extends Component {
                 style={[styles.container, this.props.style, {height: height}]}>
                 {this.props.images.map((image, index) => {
                     const imageObject = typeof image === 'string' ? {uri: image} : image;
-                    const imageComponent = <Image
+                    const imageComponent = <ImageComponent
                         key={index}
+                        defaultSource={this.props.defaultSource}
                         source={imageObject}
                         style={{height, width}}
                     />;
