@@ -1,5 +1,5 @@
 # react-native-image-slider
-* This package is a fork of [I'm an inline-style link](https://github.com/PaulBGD/react-native-image-slider)
+* This package is a fork of [PaulBGD react-native-image-slider](https://github.com/PaulBGD/react-native-image-slider)
 * We simplified how the scrollview works and now it does not use PanResponders, just a plain ScrollView.
 * This fixes an issue with android that will prevent the scroll to work as a paginated ScrollView, and other small issues.
 * Now you can pass your own image component, this is very useful if you are using cached images or another type of image component.
