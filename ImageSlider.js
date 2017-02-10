@@ -1,42 +1,16 @@
 import React, { Component } from 'react';
 import {
-	Image,
 	View,
-	ScrollView,
-	StyleSheet,
+	Image,
 	Animated,
-	TouchableHighlight,
+	Dimensions,
+	ScrollView,
 	TouchableOpacity,
-	Dimensions
+	TouchableHighlight,
 } from 'react-native';
 
+import styles from './styles.js';
 
-const styles = StyleSheet.create({
-	container: {
-		flexDirection: 'row',
-		backgroundColor: '#222'
-	},
-	buttons: {
-		height: 15,
-		marginTop: -15,
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		flexDirection: 'row'
-	},
-	button: {
-		margin: 3,
-		width: 8,
-		height: 8,
-		borderRadius: 8 / 2,
-		backgroundColor: '#ccc',
-		opacity: 0.9
-	},
-	buttonSelected: {
-		opacity: 1,
-		backgroundColor: '#fff',
-	}
-});
 
 export default class ImageSlider extends Component {
 	constructor(props) {
@@ -75,6 +49,7 @@ export default class ImageSlider extends Component {
 		if(typeof this.props.position === 'number'){
 			return this.props.position;
 		}
+
 		return this.state.position;
 	}
 
@@ -98,11 +73,10 @@ export default class ImageSlider extends Component {
 	}
 
 	_handleScrollEnd(contentOffset) {
-		const width = this.props.width || this.state.width
+		const width = this.props.width || this.state.width;
+		const index = Math.round(contentOffset.x / width);
 
-		const index = Math.round(contentOffset.x / width)
-
-		this._move(index)
+		this._move(index);
 	}
 
 	render() {
@@ -110,6 +84,7 @@ export default class ImageSlider extends Component {
 		const height = this.props.height || this.state.height;
 		const position = this._getPosition();
 		const ImageComponent = this.props.imageComponent || Image;
+		const activeButtonStyles = this.props.activeButtonStyles || styles.buttonSelected ;
 
 		return (
 			<View>
@@ -129,6 +104,7 @@ export default class ImageSlider extends Component {
 								key={ index }
 								source={ imageObject }
 								defaultSource={ this.props.defaultSource }
+								resizeMode={ this.props.resizeMode || 'cover' }
 								style={{ height, width }} />;
 
 							if (this.props.onPress) {
@@ -152,13 +128,15 @@ export default class ImageSlider extends Component {
 				<View style={ styles.buttons }>
 					{
 						this.props.images.map((image, index) =>
-							<TouchableHighlight
+							<View
 								key={ index }
 								underlayColor={ '#ccc' }
-								onPress={ () => this._move(index) }
-								style={[ styles.button, position === index && styles.buttonSelected ]}>
+								style={[
+									this.props.buttonStyles || styles.button,
+									(position === index) ? activeButtonStyles : null,
+								]}>
 								<View></View>
-							</TouchableHighlight>
+							</View>
 						)
 					}
 				</View>
